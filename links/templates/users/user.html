@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block content %}
+<div>
+  <h1>{{ user.username }}</h1>
+  <img src="{{ image_file }}" alt="">
+  <img src="{{ qrcode }}" alt="">
+  {% if links %}
+      {% for link in links %}
+        <a href="{{ link.link }}">{{ link.name }}</p>
+      {% endfor %}  
+  {% endif %}
+</div>  
+{% endblock content %}

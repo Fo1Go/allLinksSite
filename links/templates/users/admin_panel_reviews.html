@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block content %}
+<div>
+    {% for review in reviews.items %}
+    <div>
+        <p>Title: {{ review.title }}</p>
+        <p>Text: {{ review.text }}</p>
+        <p>Rating: {{ review.rating }}</p>
+        <p>Data review: {{ review.date.strftime('%Y-%m-%d') }}</p>
+    </div>
+    {% endfor %}    
+    {% for page_num in reviews.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+      {% if page_num %}
+        {% if reviews.page == page_num %}
+          <a href="{{ url_for('users.admin_panel_reviews', page=page_num) }}">{{ page_num }}</a>
+        {% else %}
+          <a href="{{ url_for('users.admin_panel_reviews', page=page_num) }}">{{ page_num }}</a>
+        {% endif %}
+      {% else %}
+        ...
+      {% endif %}
+    {% endfor %}
+</div>
+{% endblock content %}

@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+{% block content %}
+  <div>
+    <h1>Welcome {{ current_user.username }}</h1>
+    <img src="{{ image_file }}" alt="">
+    
+    <img src="{{ qrcode }}" alt="">
+    <p>Your links:</p>
+    {% if links %}
+        {% for link in links %}
+          {% if current_user.id == link.owner_id %}
+            <a href="{{ url_for('users.edit_link', link_name=link.name) }}">[{{ link.name }}]: {{ link.link }}</a>
+          {% else %}
+            <a href="{{ link.link }}">{{ link.name }}</p>
+          {% endif %}
+        {% endfor %}  
+    {% endif %}
+    <a href="{{ url_for('users.profile_update') }}">Update profile</a>
+  </div>  
+  <div>
+    <p>Add new link</p>
+    <form action="" method="POST">
+      {{ form.hidden_tag() }}
+      <div>
+        {{ form.name.label() }}
+      
+        {% if form.name.errors %}
+          {{ form.name()}}
+          <div>
+            {% for error in form.name.errors %}
+              <span>
+                {{ error }}
+              </span>
+            {% endfor %}
+          </div>
+        {% else %}
+            {{ form.name() }}
+        {% endif %}
+      </div>
+      <div>
+        {{ form.link.label() }}
+      
+        {% if form.link.errors %}
+          {{ form.link()}}
+          <div>
+            {% for error in form.link.errors %}
+              <span>
+                {{ error }}
+              </span>
+            {% endfor %}
+          </div>
+        {% else %}
+          {{ form.link() }}
+        {% endif %}
+      </div>
+      <div>
+        {{ form.submit() }}
+    </div>
+    </form>
+  </div>
+{% endblock content %}

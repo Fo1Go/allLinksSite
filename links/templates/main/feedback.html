@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+{% block content %}
+<div>
+  <p>Here you can give feedback to our team</p>
+  {% if current_user.is_authenticated %}
+    <div>
+      <form method="POST" action="">
+          {{ form.hidden_tag() }}
+          <fieldset>
+              <legend>Feedback</legend>
+              <div>
+                  {{ form.rating.label() }}
+                  {{ form.rating() }}
+              </div>
+              <div>
+                  {{ form.title.label() }}
+                  
+                  {% if form.title.errors %}
+                      {{ form.title()}}
+                      <div>
+                          {% for error in form.title.errors %}
+                              <span>
+                                  {{ error }}
+                              </span>
+                          {% endfor %}
+                      </div>
+                  {% else %}
+                      {{ form.title() }}
+                  {% endif %}
+              </div>
+              <div>
+                  {{ form.text.label() }}
+                  
+                  {% if form.text.errors %}
+                      {{ form.text()}}
+                      <div>
+                          {% for error in form.text.errors %}
+                              <span>
+                                  {{ error }}
+                              </span>
+                          {% endfor %}
+                      </div>
+                  {% else %}
+                      {{ form.text() }}
+                  {% endif %}
+              </div>
+          </fieldset>
+          <div>
+              {{ form.submit() }}
+          </div>
+      </form>
+    </div>
+  {% else %}
+    <a href="{{ url_for('users.register') }}">You must be registered to leave a review</a>
+  {% endif %}
+</div>
+{% endblock content %}
