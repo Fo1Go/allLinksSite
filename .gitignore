@@ -4,6 +4,8 @@ __pycache__/
 *$py.class
 *.pyc
 
+links/static/qrcodes/
+links/static/profile_pictures/
 .env/
 docs/
 logs/

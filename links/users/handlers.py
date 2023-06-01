@@ -188,19 +188,28 @@ def edit_link(link_name):
 @users.route('/user/<username>')
 def user(username):
     user = User.query.filter_by(username=username).first()
-    if username == current_user.username:
-        return redirect(url_for('users.profile'))
     if not user:
         flash('No user with this username', 'danger')
         return redirect(url_for('main.home'))
+    if current_user.is_authenticated:
+        if username == current_user.username:
+            return redirect(url_for('users.profile'))
     image_file = url_for('static', filename=f'profile_pictures/{user.image_file}')
     links = Links.query.filter_by(owner_id=user.id)
-    qrcode = get_qrcode(current_user.username)
+    qrcode = get_qrcode(user.username)
     return render_template('users/user.html', 
                            user=user, 
                            image_file=image_file, 
                            links=links, 
                            qrcode=qrcode)
+
+
+@users.route('/users')
+def all_users():
+    page = request.args.get('page', 1, type=int)
+    users = User.query.order_by().paginate(page=page, per_page=25)
+    return render_template('users/users.html', 
+                           users=users)
 
 
 @users.route('/admin/panel')

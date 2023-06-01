@@ -30,3 +30,13 @@ body {
     color: #f5ff89;
     border: 1px solid #fff127;   
 }
+
+a {
+    font-size: 1.33em;
+    text-decoration: none;
+    color: black;
+}
+
+a:hover { 
+    text-decoration: underline;
+}
