@@ -23,6 +23,13 @@ def save_picture(form_picture):
     return picture_fn
 
 
+def delete_qrcode(username):
+    qrcode_name = f'{username}.png'
+    qrcode_path = os.path.join(current_app.root_path, 'static\\qrcodes', qrcode_name)
+    if os.path.isfile(qrcode_path):
+        os.remove(qrcode_path)
+
+
 def get_qrcode(username):
     qrcode_name = f'{username}.png'
     output_size = (256, 256)
@@ -56,7 +63,6 @@ def generate_token(user, *args, TOKEN_TIMEOUT=3600):
     token = jwt.encode(header=header, payload=payload, key=current_app.secret_key)
 
     return token
-
 
 
 def send_mail(token, email):

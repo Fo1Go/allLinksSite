@@ -3,10 +3,10 @@ from flask_login import current_user, login_user, logout_user, login_required
 from links import bcrypt, db
 from links.users.forms import (RegisterForm, LoginForm, UpdateProfileForm, 
                                LinkCreateForm, LinkEditForm, ResetPasswordForm, 
-                               CreateNewPasswordForm, EditRoleForm )
-from links.models import User, Links, Roles, Reviews, Friends, ROLES
+                               CreateNewPasswordForm)
+from links.models import User, Links, Roles, Friends, ROLES
 from links.users.utils import (save_picture, get_qrcode, send_mail, 
-                               generate_token, validate_token)
+                               generate_token, validate_token, delete_qrcode)
 
 
 users = Blueprint('users', __name__)
@@ -133,7 +133,8 @@ def profile_update():
         if form.picture.data:
             picture_file = save_picture(form.picture.data)
             current_user.image_file = picture_file
-        if form.username.data:
+        if form.username.data and current_user.username != form.username.data:
+            delete_qrcode(current_user.username)
             current_user.username = form.username.data
         if form.email.data:
             current_user.email = form.email.data
@@ -210,60 +211,3 @@ def all_users():
     users = User.query.order_by().paginate(page=page, per_page=25)
     return render_template('users/users.html', 
                            users=users)
-
-
-@users.route('/admin/panel')
-@login_required
-def admin_panel():
-    if current_user.role[0].user_role == ROLES['user']:
-        flash('You don\'t have enough permission', 'danger')
-        return redirect(url_for('main.home'))
-    title = 'Admin Panel'
-    role = current_user.role[0].user_role.upper()
-    return render_template('users/admin_panel.html', 
-                           title=title, 
-                           role=role)
-
-
-@users.route('/admin/reviews')
-@login_required
-def admin_panel_reviews():
-    if current_user.role[0].user_role == ROLES['user']:
-        flash('You don\'t have enough permission', 'danger')
-        return redirect('main.home')
-    title = 'Admin Panel | Reviews'
-    page = request.args.get('page', 1, type=int)
-    reviews = Reviews.query.order_by(Reviews.date.desc()).paginate(page=page, per_page=25)
-    return render_template('users/admin_panel_reviews.html', 
-                           title=title, 
-                           reviews=reviews)
-
-
-@users.route('/admin/roles', methods=['GET', 'POST'])
-@login_required
-def admin_panel_edit_roles():
-    if current_user.role[0].user_role != ROLES['admin']:
-        flash('You don\'t have enough permission', 'danger')
-        return redirect('main.home')
-    form = EditRoleForm()
-    if form.validate_on_submit():
-        page_uri = url_for('users.admin_panel_edit_roles')
-        user = User.query.filter_by(username=form.username.data).first()
-        if not user:
-            flash('No user exists with this username', 'warning')
-            return redirect(page_uri)
-        if user.id is current_user.id:
-            flash('You cannot change you\'s role', 'warning')
-            return redirect(page_uri)
-        if user.role[0].user_role == ROLES['admin']:
-            flash('You cant change role with admin\'s', 'danger')
-            return redirect(page_uri)
-        role = Roles.query.filter_by(user_id=user.id).first()
-        role.user_role = form.role.data
-        db.session.commit()
-        flash('Success!', 'success')
-        return redirect(url_for('users.admin_panel'))
-    title = 'Admin Panel | Edit Roles'
-    return render_template('users/admin_panel_roles.html', 
-                           title=title, 
-                           form=form)

@@ -21,7 +21,7 @@
                     <a href="{{ url_for('users.profile') }}">Profile</a>
                     <a href="{{ url_for('users.logout') }}">Log Out</a>
                     {% if current_user.role[0].user_role != 'user' %}
-                    <a href="{{ url_for('users.admin_panel') }}">Admin Panel</a>
+                    <a href="{{ url_for('admin.admin_panel') }}">Admin Panel</a>
                     {% endif %}
                 {% else %}
                     <a href="{{ url_for('users.login') }}">Login</a>

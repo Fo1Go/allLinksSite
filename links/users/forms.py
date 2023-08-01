@@ -117,12 +117,3 @@ class LinkEditForm(FlaskForm):
             pattern = "^https?:\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$"
             if not match(pattern, link.data):
                 raise ValidationError('Not valid link')
-        
-
-class EditRoleForm(FlaskForm):
-    username = StringField('Username', 
-                        validators=[DataRequired(), 
-                                    Length(min=2, max=128)])
-    role = SelectField('Roles', 
-                          choices=list(ROLES.keys()))
-    submit = SubmitField('Add role')

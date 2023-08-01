@@ -3,9 +3,9 @@
 <div>
     <p>Admin Panel</p>
     <p>Your role: {{ role }}</p>
-    <a href="{{ url_for('users.admin_panel_reviews') }}">View a reviews</a>
+    <a href="{{ url_for('admin.admin_panel_reviews') }}">View a reviews</a>
     {% if current_user.role[0].user_role == 'admin' %}
-    <a href="{{ url_for('users.admin_panel_edit_roles') }}">Edit roles</a>
+    <a href="{{ url_for('admin.admin_panel_edit_roles') }}">Edit roles</a>
     {% endif %}
 </div>
 {% endblock content %}
