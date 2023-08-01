@@ -4,9 +4,11 @@ __pycache__/
 *$py.class
 *.pyc
 
-links/static/qrcodes/
+.gitignore
+
+links/static/qrcodes/*
 links/master_key.txt
-links/static/profile_pictures/
+links/static/profile_pictures/*
 .env/
 docs/
 logs/
