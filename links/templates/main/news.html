@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+{% block content %}
+{% if current_user.role[0].user_role in ['admin', 'moder'] %}
+<div>
+    <form method="POST" action="" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <fieldset>
+            <legend>Add new article</legend>
+            <div>
+                {{ form.title.label() }}
+                
+                {% if form.title.errors %}
+                    {{ form.title()}}
+                    <div>
+                        {% for error in form.title.errors %}
+                            <span>
+                                {{ error }}
+                            </span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.title() }}
+                {% endif %}
+            </div>
+            <div>
+                {{ form.text.label() }}
+                
+                {% if form.text.errors %}
+                    {{ form.text()}}
+                    <div>
+                        {% for error in form.text.errors %}
+                            <span>
+                                {{ error }}
+                            </span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.text() }}
+                {% endif %}
+            </div>
+            <div>
+                {{ form.img.label() }}
+                {{ form.img() }}
+            </div>
+            <div>
+                {{ form.submit() }}
+            </div>
+        </fieldset>
+    </form>
+</div>
+{% endif %}
+<div>
+    <h1>Site news</h1>
+    {% for article in articles %}
+    <article class="news">
+        {% if article['image'] != 'None' %} 
+            <img src="{{ url_for('static', filename=''.join(['news_images/', article['image']])) }}" class="news">
+        {% endif %}
+        <a href="{{ url_for('main.article', article_id=article['id']) }}">{{ article['title'] }}</a>     
+        <p>{{ article['text'][:50] }}...</p>
+        <a href="{{ url_for('main.article', article_id=article['id']) }}">Read more</a>
+    </article>
+    {% endfor %}
+    <div>
+        {% for page_num in articles.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+          {% if page_num %}
+            {% if articles.page == page_num %}
+              <a href="{{ url_for('main.news', page=page_num) }}">{{ page_num }}</a>
+            {% else %}
+              <a href="{{ url_for('main.news', page=page_num) }}">{{ page_num }}</a>
+            {% endif %}
+          {% else %}
+            ...
+          {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

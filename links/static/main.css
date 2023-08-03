@@ -1,7 +1,6 @@
 body {
     background: #f8f0ff;
     color: #262626;
-    margin-top: 5rem;
 }
 
 .alert {
@@ -32,11 +31,38 @@ body {
 }
 
 a {
-    font-size: 1.33em;
+    font-size: 1.3em;
     text-decoration: none;
     color: black;
 }
 
 a:hover { 
     text-decoration: underline;
+}
+
+#navbar {
+    top: 0px;
+    display: block;
+    width: 90%;
+    margin: auto;
+}
+
+#navbar ul {
+    display: inline-block;
+}
+
+#navbar li {
+    display: inline-block;
+    margin-left: 15px;
+}
+
+#main { 
+    width: 80%;
+    margin: auto;
+}
+
+.news {
+    margin-top: 10px;
+    display: block;
+    padding: 15px;
 }

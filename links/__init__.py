@@ -43,10 +43,9 @@ def init_database(app):
 
 
 # TODO:
+## test on all handlers, db, forms.
 ## users search
 ### user search by nickname
-## admin panel
-### add, remove, update news;
 ## friends system
 ### add, remove friends; private messages;
 

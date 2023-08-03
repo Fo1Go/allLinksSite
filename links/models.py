@@ -65,3 +65,15 @@ class Friends(db.Model):
 
     def __repr__(self):
         return f'Friend("{self.friend_id}")'
+    
+
+class News(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(256), nullable=False)
+    text = db.Column(db.Text, nullable=False)
+    date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    image = db.Column(db.String(64), nullable=True, default='None')
+    
+
+    def __repr__(self):
+        return f'News("{self.title}", "{self.date}")'

@@ -79,9 +79,21 @@
         </div>
     </form>
 </div>
-{% else %}
-<div>
-    <p>Home!</p>
-  </div>
 {% endif %}
+<div>
+    <h1>Lastest site news</h1>
+    {% for article in news %}
+    <article class="news">
+        {% if article.image != 'None' %} 
+            <img src="{{ url_for('static', filename=''.join(['news_images/', article.image])) }}" class="news">
+        {% endif %}
+        <a href="{{ url_for('main.article', article_id=article.id) }}">{{ article.title }}</a>     
+        <p>{{ article.text[:50] }}...</p>
+        <a href="{{ url_for('main.article', article_id=article.id) }}">Read more</a>
+    </article>
+    {% endfor %}
+</div>
+<div>
+    <a href="{{ url_for('main.news') }}">Read more site news here</a>
+</div>
 {% endblock content %}

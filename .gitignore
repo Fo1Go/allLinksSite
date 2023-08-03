@@ -6,8 +6,9 @@ __pycache__/
 
 .gitignore
 
-links/static/qrcodes/*
 links/master_key.txt
+links/news_images/*
+links/static/qrcodes/*
 links/static/profile_pictures/*
 .env/
 docs/

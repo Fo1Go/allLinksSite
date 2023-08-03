@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+{% block content %}
+<div>
+    <form method="POST" action="" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <fieldset>
+            <legend>Add new article</legend>
+            <div>
+                {{ form.title.label() }}
+                
+                {% if form.title.errors %}
+                    {{ form.title()}}
+                    <div>
+                        {% for error in form.title.errors %}
+                            <span>
+                                {{ error }}
+                            </span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.title() }}
+                {% endif %}
+            </div>
+            <div>
+                {{ form.text.label() }}
+                
+                {% if form.text.errors %}
+                    {{ form.text()}}
+                    <div>
+                        {% for error in form.text.errors %}
+                            <span>
+                                {{ error }}
+                            </span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.text() }}
+                {% endif %}
+            </div>
+            <div>
+                {{ form.img.label() }}
+                
+                {% if form.img.errors %}
+                    {{ form.img()}}
+                    <div>
+                        {% for error in form.img.errors %}
+                            <span>
+                                {{ error }}
+                            </span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.img() }}
+                {% endif %}
+            </div>
+            <div>
+                {{ form.submit() }}
+            </div>
+        </fieldset>
+    </form>
+</div>
+{% endblock content %}

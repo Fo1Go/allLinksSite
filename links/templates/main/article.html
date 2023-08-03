@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+{% block content %}
+{% if current_user.role[0].user_role in ['admin', 'moder'] %}
+<div>
+    <form method="POST" action="" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <fieldset>
+            <legend>Edit article</legend>
+            <div>
+                {{ form.title.label() }}
+                
+                {% if form.title.errors %}
+                    {{ form.title()}}
+                    <div>
+                        {% for error in form.title.errors %}
+                            <span>
+                                {{ error }}
+                            </span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.title() }}
+                {% endif %}
+            </div>
+            <div>
+                {{ form.text.label() }}
+                
+                {% if form.text.errors %}
+                    {{ form.text()}}
+                    <div>
+                        {% for error in form.text.errors %}
+                            <span>
+                                {{ error }}
+                            </span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.text() }}
+                {% endif %}
+            </div>
+            <div>
+                {{ form.img.label() }}
+                
+                {% if form.img.errors %}
+                    {{ form.img()}}
+                    <div>
+                        {% for error in form.img.errors %}
+                            <span>
+                                {{ error }}
+                            </span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.img() }}
+                {% endif %}
+            </div>
+            <div>
+                {{ form.edit_submit() }}
+            </div>
+            <div>
+                {{ form.delete_submit() }}
+            </div>
+        </fieldset>
+    </form>
+</div>
+{% endif %}
+<div>
+    <article class="news">
+        {% if article.image != 'None' %} 
+            <img src="{{ url_for('static', filename=''.join(['news_images/', article.image])) }}" class="news">
+        {% endif %}
+        <a href="{{ url_for('main.article', article_id=article.id) }}">{{ article.title }}</a>     
+        <p>{{ article.text[:50] }}...</p>
+    </article>
+</div>
+{% endblock content %}
