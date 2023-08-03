@@ -7,9 +7,9 @@ __pycache__/
 .gitignore
 
 links/master_key.txt
-links/news_images/*
-links/static/qrcodes/*
-links/static/profile_pictures/*
+links/news_images/*.*
+links/static/qrcodes/*.*
+links/static/profile_pictures/*.*
 .env/
 docs/
 logs/
