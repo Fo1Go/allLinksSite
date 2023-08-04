@@ -43,9 +43,12 @@ def init_database(app):
 
 
 # TODO:
+## In some user profile admin can change his role
+## download qrcode in .pdf and .png
+## verify email address
+
 ## test on all handlers, db, forms.
-## users search
-### user search by nickname
+
 ## friends system
 ### add, remove friends; private messages;
 

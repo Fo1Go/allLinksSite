@@ -25,11 +25,7 @@ class AddNewsForm(FlaskForm):
     img = FileField('Preview picture', 
                        validators=[FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Add article')
-    
-    
-    def __repr__(self):
-        return f'News("{self.title}", "{self.date}")'
-    
+
 
 class EditNewsForm(FlaskForm):
     title = StringField('Title', 
@@ -41,7 +37,3 @@ class EditNewsForm(FlaskForm):
                        validators=[FileAllowed(['jpg', 'png'])])
     edit_submit = SubmitField('Edit news')
     delete_submit = SubmitField('Delete article')
-
-
-    def __repr__(self):
-        return f'News("{self.title}", "{self.date}")'

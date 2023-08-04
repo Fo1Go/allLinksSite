@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed, FileField
-from wtforms import StringField, EmailField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, EmailField, PasswordField, SubmitField, BooleanField, SearchField
 from wtforms.validators import DataRequired, Length, ValidationError, EqualTo, Email
 from links.models import User, Links, ROLES
 from flask_login import current_user
@@ -117,3 +117,8 @@ class LinkEditForm(FlaskForm):
             pattern = "^https?:\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$"
             if not match(pattern, link.data):
                 raise ValidationError('Not valid link')
+            
+
+class SearchUserForm(FlaskForm):
+    search = SearchField('Username')
+    submit = SubmitField('Search')

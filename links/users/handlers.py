@@ -3,7 +3,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 from links import bcrypt, db
 from links.users.forms import (RegisterForm, LoginForm, UpdateProfileForm, 
                                LinkCreateForm, LinkEditForm, ResetPasswordForm, 
-                               CreateNewPasswordForm)
+                               CreateNewPasswordForm, SearchUserForm)
 from links.models import User, Links, Roles, Friends, ROLES
 from links.users.utils import (save_picture, get_qrcode, send_mail, 
                                generate_token, validate_token, delete_qrcode)
@@ -205,9 +205,15 @@ def user(username):
                            qrcode=qrcode)
 
 
-@users.route('/users')
+@users.route('/users', methods=['GET', 'POST'])
 def all_users():
     page = request.args.get('page', 1, type=int)
-    users = User.query.order_by().paginate(page=page, per_page=25)
+    form = SearchUserForm()
+    if form.validate_on_submit():
+        username = form.search.data
+        users = User.query.filter(User.username.like(f'{username}%')).paginate(page=page, per_page=25)
+    elif request.method == 'GET':
+        users = User.query.order_by().paginate(page=page, per_page=25)
     return render_template('users/users.html', 
-                           users=users)
+                           users=users,
+                           form=form)
