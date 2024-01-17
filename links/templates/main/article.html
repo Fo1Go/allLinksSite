@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
-{% if current_user.role[0].user_role in ['admin', 'moder'] %}
+{% if current_user.role.user_role in ['admin', 'moder'] %}
 <div>
     <form method="POST" action="" enctype="multipart/form-data">
         {{ form.hidden_tag() }}

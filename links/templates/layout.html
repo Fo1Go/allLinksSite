@@ -18,7 +18,7 @@
                     <li><a href="{{ url_for('main.about') }}">About</a></li>
                     <li><a href="{{ url_for('main.feedback') }}">Feedback</a></li>
                     {% if current_user.is_authenticated %}
-                        {% if current_user.role[0].user_role != 'user' %}
+                        {% if current_user.role.user_role != 'user' %}
                             <li><a href="{{ url_for('admin.admin_panel') }}">Admin Panel</a></li>
                         {% endif %}
                         <li><a href="{{ url_for('users.profile') }}">Profile</a></li>

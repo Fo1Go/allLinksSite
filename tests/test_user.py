@@ -1,20 +1,41 @@
 from conftest import client, runner, app 
 
 
-def test_registration(client):
+def register(client):
     ...
 
-def test_login(client):
+
+def login(client):
     ...
 
-def test_profile(client):
+
+def forgot_password(client):
     ...
 
-def test_edit_profile(client):
+
+def reset_password(client):
     ...
 
-def test_links(client):
+
+def logout(client):
     ...
 
-def test_links_edit(client):
+
+def profile(client):
+    ...
+
+
+def profile_update(client):
+    ...
+
+
+def edit_link(client):
+    ...
+
+
+def user(client):
+    ...
+
+
+def all_users(client):
     ...

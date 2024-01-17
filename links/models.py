@@ -22,7 +22,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(80), nullable=False)
     links = db.relationship('Links', backref='owner', lazy=True)
     review = db.relationship('Reviews', backref='rater', lazy=True)
-    role = db.relationship('Roles', backref='user', lazy=True)
+    role = db.relationship('Roles', backref='user', lazy=True, uselist=False)
 
     def __repr__(self):
         return f'User("{self.username}", "{self.email}", "{self.image_file}")'

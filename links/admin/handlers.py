@@ -12,12 +12,12 @@ admin = Blueprint('admin', __name__)
 @admin.route('/admin/panel')
 @login_required
 def admin_panel():
-    if current_user.role[0].user_role == ROLES['user']:
+    if current_user.role.user_role == ROLES['user']:
         flash('You don\'t have enough permission', 'danger')
         return redirect(url_for('main.home'))
     
     title = 'Admin Panel'
-    role = ''.join([x.user_role.upper() for x in current_user.role])
+    role = current_user.role.user_role.upper()
 
     return render_template('admin/admin_panel.html', 
                            title=title, 
@@ -27,7 +27,7 @@ def admin_panel():
 @admin.route('/admin/reviews')
 @login_required
 def admin_panel_reviews():
-    if ROLES['user'] in [x.user_role for x in current_user.role]:
+    if ROLES['user'] == current_user.role.user_role:
         flash('You don\'t have enough permission', 'danger')
         return redirect('main.home')
     
@@ -43,9 +43,7 @@ def admin_panel_reviews():
 @admin.route('/admin/roles', methods=['GET', 'POST'])
 @login_required
 def admin_panel_edit_roles():
-    roles_current_user = [x.user_role for x in current_user.role]
-
-    if ROLES['admin'] not in roles_current_user: 
+    if ROLES['admin'] not in current_user.role.user_role: 
         flash('You don\'t have enough permission', 'danger')
         return redirect('main.home')
     
@@ -81,7 +79,7 @@ def admin_panel_edit_roles():
 @admin.route('/admin/news', methods=['GET', 'POST'])
 @login_required
 def admin_panel_add_news():
-    if ROLES['user'] in [x.user_role for x in current_user.role]:
+    if ROLES['user'] == current_user.role.user_role:
         flash('You don\'t have enough permission', 'danger')
         return redirect('main.home')
     

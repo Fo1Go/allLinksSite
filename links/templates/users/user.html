@@ -1,5 +1,25 @@
 {% extends "layout.html" %}
 {% block content %}
+{% if current_user.role.user_role == 'admin' %}
+<div>
+  <form method="POST" action="">
+      {{ form.hidden_tag() }}
+      <fieldset>
+          <legend>Edit role</legend>
+          <div>
+              {{ form.role.label() }}
+              {{ form.role() }}
+          </div>
+          <div>
+              {{ form.master_key.label() }}
+              {{ form.master_key() }}
+          </div>
+      <div>
+          {{ form.submit() }}
+      </div>
+  </form>
+</div>
+{% endif %}
 <div>
   <h1>{{ user.username }}</h1>
   <img src="{{ image_file }}" alt="">

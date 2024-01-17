@@ -1,7 +1,9 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed, FileField
-from wtforms import StringField, EmailField, PasswordField, SubmitField, BooleanField, SearchField
-from wtforms.validators import DataRequired, Length, ValidationError, EqualTo, Email
+from wtforms import (StringField, EmailField, PasswordField, SubmitField, 
+                     BooleanField, SearchField, SelectField)
+from wtforms.validators import (DataRequired, Length, 
+                                ValidationError, EqualTo, Email)
 from links.models import User, Links, ROLES
 from flask_login import current_user
 from re import match
@@ -122,3 +124,11 @@ class LinkEditForm(FlaskForm):
 class SearchUserForm(FlaskForm):
     search = SearchField('Username')
     submit = SubmitField('Search')
+
+
+class EditRoleForm(FlaskForm):
+    role = SelectField('Roles', 
+                          choices=list(ROLES.keys()))
+    master_key = PasswordField('Master key:', 
+                        validators=[DataRequired()])
+    submit = SubmitField('Add role')

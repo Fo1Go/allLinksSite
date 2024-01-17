@@ -37,20 +37,24 @@ def create_app(config=Config):
 
 
 def init_database(app):
-    from links.models import User, Links, Reviews, Roles
+    from links.models import User, Links, Reviews, Roles, News, Friends
     with app.app_context():
         db.create_all()
 
 
 # TODO:
-## In some user profile admin can change his role
-## download qrcode in .pdf and .png
-## verify email address
-
 ## test on all handlers, db, forms.
 
-## friends system
-### add, remove friends; private messages;
+## download qrcode in .pdf and .png
+
+### followers/friends system
+## add, remove followers; private messages;
+
+### site errors handlers
 
 ### some account settings 
+## verify email address
+
 ### design 
+
+### like https://allmylinks.com/settings/profile

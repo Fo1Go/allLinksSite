@@ -3,10 +3,11 @@ from flask_login import current_user, login_user, logout_user, login_required
 from links import bcrypt, db
 from links.users.forms import (RegisterForm, LoginForm, UpdateProfileForm, 
                                LinkCreateForm, LinkEditForm, ResetPasswordForm, 
-                               CreateNewPasswordForm, SearchUserForm)
+                               CreateNewPasswordForm, SearchUserForm, EditRoleForm)
 from links.models import User, Links, Roles, Friends, ROLES
 from links.users.utils import (save_picture, get_qrcode, send_mail, 
                                generate_token, validate_token, delete_qrcode)
+from links.admin.utils import get_master_key
 
 
 users = Blueprint('users', __name__)
@@ -186,23 +187,33 @@ def edit_link(link_name):
                            link=link)
 
 
-@users.route('/user/<username>')
+@users.route('/user/<username>', methods=['GET', 'POST'])
 def user(username):
-    user = User.query.filter_by(username=username).first()
-    if not user:
-        flash('No user with this username', 'danger')
-        return redirect(url_for('main.home'))
+    user = User.query.filter_by(username=username).first_or_404()
     if current_user.is_authenticated:
         if username == current_user.username:
             return redirect(url_for('users.profile'))
     image_file = url_for('static', filename=f'profile_pictures/{user.image_file}')
     links = Links.query.filter_by(owner_id=user.id)
     qrcode = get_qrcode(user.username)
+    
+    page_uri = url_for('users.user', username=username)
+    form = EditRoleForm()
+    if form.validate_on_submit():
+        if form.master_key.data != get_master_key():
+            flash('Wrong master key', 'warning')
+            return redirect(page_uri)
+        
+        role = Roles.query.filter_by(user_id=user.id).first()
+        role.user_role = form.role.data
+        db.session.commit()
+        flash('Success!', 'success')
     return render_template('users/user.html', 
                            user=user, 
                            image_file=image_file, 
                            links=links, 
-                           qrcode=qrcode)
+                           qrcode=qrcode,
+                           form=form)
 
 
 @users.route('/users', methods=['GET', 'POST'])
